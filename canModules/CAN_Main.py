@@ -21,7 +21,7 @@ Mask
 0x700
 """
 
-CAN_LAYOUT = 0 #get rid of this when CAN migration is finalized
+CAN_LAYOUT = 1 #get rid of this when CAN migration is finalized
 
 CAN_MASK = 0xFFF
 
