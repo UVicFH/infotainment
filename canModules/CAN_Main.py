@@ -20,6 +20,8 @@ Mask
 0x700
 """
 
+CAN_LAYOUT = 0 #get rid of this CAN migration is finalized
+
 CAN_MASK = 0xFFF
 
 CAN_MESSAGE_1 = 0x100
@@ -91,10 +93,10 @@ class CAN_Main(object):
 	#previous_vehicle_speed = -2
 	#update_vehicle_speed = False
 	
-	#try:
-	serialport = serial.Serial("/dev/ttyUSB0", 9600, timeout=0.5)
-	#except:
-	#	print("No Serial Port detected")
+	try:
+		serialport = serial.Serial("/dev/ttyUSB0", 9600, timeout=0.5)
+	except:
+		print("No Serial Port detected")
 		
 	def __init__(self):
 		
@@ -190,6 +192,7 @@ class CAN_Main(object):
 		        	self.serialport.write('\n'.encode()) 	
 			except:
 				pass
+
 	def pollBus(self):
 		try:	
 			msg = self.bus.recv(timeout=10)
@@ -329,26 +332,36 @@ class CAN_Main(object):
 	#		self.update_engery_budget_status = True
 
 	def initializeInstances(self):
-		self.bus = Bus(can_interface,can_filters=FILTER_DICTIONARY_LIST)
+		#self.bus = Bus(can_interface,can_filters=FILTER_DICTIONARY_LIST)
+		self.bus = Bus(can_interface)
 		self.can_tools = CAN_Opener.Can_Opener()
 
 	def message_select(self, pCAN_frame):
-		if(pCAN_frame.arbitration_id == 0x100):
-			self.message_one(pCAN_frame.data)
-		elif(pCAN_frame.arbitration_id == 0x200):
-			self.message_two(pCAN_frame.data)
-		elif(pCAN_frame.arbitration_id == 0x300):
-			self.message_three(pCAN_frame.data)
-		elif(pCAN_frame.arbitration_id == 0x400):
-			self.message_four(pCAN_frame.data)
-		else:
-			pass
+		if(CAN_LAYOUT==0):
+			if(pCAN_frame.arbitration_id == 0x100):
+				self.message_one(pCAN_frame.data)
+			elif(pCAN_frame.arbitration_id == 0x200):
+				self.message_two(pCAN_frame.data)
+			elif(pCAN_frame.arbitration_id == 0x300):
+				self.message_three(pCAN_frame.data)
+			elif(pCAN_frame.arbitration_id == 0x400):
+				self.message_four(pCAN_frame.data)
+			else:
+				pass
+		elif(CAN_LAYOUT==1):
+			if(pCAN_frame.arbitration_id == 0x101): #Fast
+				self.message_vechicle_fast(pCAN_frame.data)
+			if(pCAN_frame.arbitration_id == 0x102): #Slow
+				self.message_vechicle_slow(pCAN_frame.data)			
+			if(pCAN_frame.arbitration_id == 0x200): #Warnings
+				self.message_vechicle_warnings(pCAN_frame.data)
+			else:
+				pass
 
 	def shiftData(self, pValue, pShiftPlaces): #simple divide
 		return pValue>>pShiftPlaces
 
 	def message_one(self, data): #Engine Signals
-		#msg_one_bits = self.can_tools.pack_data(data)
 		self.set_engine_coolant_temp(data[0])
 		self.set_engine_torque(data[1])
 		self.set_engine_RPM(data[3]*256 + data[2])
@@ -356,36 +369,45 @@ class CAN_Main(object):
 		self.set_fuel(data[5]) #May have to update later
 
 	def message_two(self, data): #Warnings
-		#msg_two_bits = self.can_tools.pack_data(data)
-		
-		#self.set_warning_glv_soc_low(self.can_tools.shift_mask(3, 1, msg_two_bits, ONE_BIT_MASK))
 		self.set_warning_glv_soc_low(self.shiftData(data[0], 3) & ONE_BIT_MASK)
-
-		#self.set_warning_motor_over_temp(self.can_tools.shift_mask(4, 1, msg_two_bits, ONE_BIT_MASK))
-		
-		#self.set_warning_glv_cockpit_brb(self.can_tools.shift_mask(2, 1, msg_two_bits, ONE_BIT_MASK))
 		self.set_warning_glv_cockpit_brb(self.shiftData(data[0], 2) & ONE_BIT_MASK)
-		
-		#self.set_warning_ess_overtemp(self.can_tools.shift_mask(0, 1, msg_two_bits, ONE_BIT_MASK))
 		self.set_warning_ess_overtemp(data[0] & ONE_BIT_MASK)
-			
-		#self.set_warning_transmission_failure(self.can_tools.shift_mask(5, 1, msg_two_bits, ONE_BIT_MASK))
 		self.set_warning_transmission_failure(self.shiftData(data[0], 5) & ONE_BIT_MASK)
-	
-		#self.set_warning_fuel_level_low(self.can_tools.shift_mask(1, 1, msg_two_bits, ONE_BIT_MASK))
 
 	def message_three(self, data): #Electrical Systems
-		#self.set_ess_soc(self.shiftData(data[0], 1))
-		#self.set_ess_voltage(data[1])
-
 		self.set_ess_soc(self.shiftData(data[5], 1))
 	
 	def message_four(self, data): #Control
-		#msg_four_bits = self.can_tools.pack_data(data)
-		#self.set_current_control_mode(self.can_tools.shift_mask(0, 2, msg_four_bits, TWO_BIT_MASK))
-		#self.set_current_gear(self.can_tools.shift_mask(2, 4, msg_four_bits, FOUR_BIT_MASK))
 		self.set_current_gear(self.shiftData(data[0], 2) & FOUR_BIT_MASK)
 		self.set_vehicle_speed(self.shiftData(data[1], 1))
-		#self.set_engery_budget_status(data[3])
-		#self.set_odometer(data[4])
+
+
+	'''
+	Need:
+
+	ess soc (ESS_Voltage?)
+	engine torque
+	'''
+	def message_vechicle_fast(self, data):
+		#Engine_Throttle_Percent
+		#Motor_Throttle_Percent
+		self.set_engine_RPM(data[3]*256 + data[2]) #2 bytes
+		self.set_vehicle_speed(self.shiftData(data[4], 1)) #div by 2
+		#ESS_Voltage SOC?
+		self.set_current_gear(data[6] & FOUR_BIT_MASK) #Lowest 4 bits
+
+	def message_vechicle_slow(self, data):
+		#Vehicle dist
+		self.set_throttle_percent(self.shiftData(data[2], 1)) #div by 2
+		#Driver_Brake_Percent
+		self.set_fuel(self.shiftData(data[4], 1)) #div by 2
+		self.set_warning_glv_cockpit_brb(data[5] & ONE_BIT_MASK)
+		#GLV TSMS
+		#Current_Control_Mode
+		self.set_engine_coolant_temp(data[6]) #no div by 2?
+
+	def message_vechicle_warnings(self, data):
+		#Fuel_Low
+		self.set_warning_ess_overtemp(self.shiftData(data[0], 4) & ONE_BIT_MASK)
+		self.set_warning_transmission_failure(self.shiftData(data[0], 5) & ONE_BIT_MASK)
 

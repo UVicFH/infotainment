@@ -17,13 +17,17 @@ class UpdateThread(QThread):
     throttlePercent = pyqtSignal(str)
     engineTorque = pyqtSignal(str)
     speed = pyqtSignal(str)
-    
+    temp_text = pyqtSignal(int)
+    #temp_C = pyqtSignal(str)
+
     #DIAL - Feed INT RPM
     tachNeedle = pyqtSignal(int)
 
     #BAR GRAPHS - Feed INT: 0-100 percent
     ess_soc = pyqtSignal(int)
     fuel = pyqtSignal(int)
+
+
 
     def __init__(self,parent=None):  
         super(UpdateThread,self).__init__(parent)  
@@ -34,6 +38,20 @@ class UpdateThread(QThread):
     
     def __del__(self):
         self.wait()
+
+    def demo2(self):
+        for x in range(0,250):
+            self.msleep(100)
+            tmp_engine_temp = x
+            #Find out what units temp is in...
+            self.temp_text.emit(x)
+            if tmp_engine_temp<180:
+                self.motor_temp.emit(2)
+            elif ((tmp_engine_temp>=180) and (tmp_engine_temp<210)):
+                self.motor_temp.emit(0)
+            elif tmp_engine_temp>210:
+                self.motor_temp.emit(1)
+
 
     def demo(self):
         #Demos all features
@@ -86,10 +104,14 @@ class UpdateThread(QThread):
 
             # All code below is testing/demo code  
             #self.demo()
+            #self.demo2()
         return 
 
     def pollBus(self):
         self.canMain.pollBus()
+
+    def f_to_c(self, pTemperature_F):
+        return ((1.8*pTemperature_F)+32)
 
     def checkForUpdates(self):
         #TEXT
@@ -122,11 +144,12 @@ class UpdateThread(QThread):
         if self.canMain.update_engine_coolant_temp:
             tmp_engine_temp = self.canMain.current_engine_coolant_temp
             #Find out what units temp is in...
-            if tmp_engine_temp<180:
+            self.temp_text.emit(tmp_engine_temp)
+            if((158<=tmp_engine_temp<176) or (203<tmp_engine_temp<=221)):
                 self.motor_temp.emit(2)
-            elif ((tmp_engine_temp>=180) and (tmp_engine_temp<210)):
+            elif (176 <= tmp_engine_temp <= 203):
                 self.motor_temp.emit(0)
-            elif tmp_engine_temp>210:
+            elif(tmp_engine_temp<158 or tmp_engine_temp>221):
                 self.motor_temp.emit(1)
 
         if self.canMain.update_warning_glv_cockpit_brb:

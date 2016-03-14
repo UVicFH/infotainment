@@ -1,5 +1,6 @@
 from PyQt5.QtCore import QUrl, QObject, QVariant, QRunnable, QCoreApplication, QThreadPool
-from PyQt5.QtGui import QGuiApplication 
+from PyQt5.QtGui import QGuiApplication
+from PyQt5.QtGui import QColor
 from PyQt5.QtQuick import QQuickView
 import os
 import sys
@@ -52,19 +53,29 @@ class MainApplication(QQuickView):
             self.qml.setProperty("glv_soc_green", QVariant(0))
             self.qml.setProperty("glv_soc_red", QVariant(1)) 
 
+    def updateMOTOR_TEMP_HACK(self, pDEGREES): 
+        self.qml.setProperty("temp_text_text", QVariant(str(pDEGREES)))
+
+
     def updateMOTOR_TEMP(self, pMOTOR_TEMP): 
         if(pMOTOR_TEMP==self.GOOD): #GOOD
             self.qml.setProperty("motor_temp_green", QVariant(1))
             self.qml.setProperty("motor_temp_red", QVariant(0))
             self.qml.setProperty("motor_temp_yellow", QVariant(0))
+            self.qml.setProperty("temp_text_color", QVariant("#00FF00"))
+            self.qml.setProperty("tempC", QVariant("#00FF00"))
         if(pMOTOR_TEMP==self.BAD): #BAD
             self.qml.setProperty("motor_temp_green", QVariant(0))
             self.qml.setProperty("motor_temp_red", QVariant(1)) 
-            self.qml.setProperty("motor_temp_yellow", QVariant(0))        
+            self.qml.setProperty("motor_temp_yellow", QVariant(0))  
+            self.qml.setProperty("temp_text_color", QVariant("#FF0000"))
+            self.qml.setProperty("tempC", QVariant("#FF0000"))     
         if(pMOTOR_TEMP==self.WARN): #WARN
             self.qml.setProperty("motor_temp_green", QVariant(0))
             self.qml.setProperty("motor_temp_red", QVariant(0)) 
-            self.qml.setProperty("motor_temp_yellow", QVariant(1)) 
+            self.qml.setProperty("motor_temp_yellow", QVariant(1))
+            self.qml.setProperty("temp_text_color", QVariant("#FFFF00"))
+            self.qml.setProperty("tempC", QVariant("#FFFF00"))
 
     def updateBRB(self, pBRB): 
         if(pBRB==self.GOOD): #GOOD
@@ -119,6 +130,9 @@ class MainApplication(QQuickView):
         self.updateThread.throttlePercent.connect(self.updateThrottle)
         self.updateThread.speed.connect(self.updateSpeed)
         self.updateThread.gear.connect(self.updateGear)
+
+        self.updateThread.temp_text.connect(self.updateMOTOR_TEMP_HACK)
+       # self.updateThread.gear.temp_C(self.updateGear)
 
         self.updateThread.brb.connect(self.updateBRB)
         self.updateThread.glv_soc.connect(self.updateGLV_SOC)
