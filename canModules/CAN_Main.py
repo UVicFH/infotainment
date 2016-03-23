@@ -10,6 +10,7 @@ Combines both CAN_MAIN and CAN_HANDLER
 
 """
 For message filtering
+Filtering has been removed temporarily
 
 ID we care about
 0x100
@@ -20,7 +21,7 @@ Mask
 0x700
 """
 
-CAN_LAYOUT = 0 #get rid of this CAN migration is finalized
+CAN_LAYOUT = 0 #get rid of this when CAN migration is finalized
 
 CAN_MASK = 0xFFF
 
@@ -94,7 +95,7 @@ class CAN_Main(object):
 	#update_vehicle_speed = False
 	
 	try:
-		serialport = serial.Serial("/dev/ttyUSB0", 9600, timeout=0.5)
+		serialport = serial.Serial("/dev/ttyUSB0", 115200, timeout=0.5)
 	except:
 		print("No Serial Port detected")
 		
@@ -332,6 +333,7 @@ class CAN_Main(object):
 	#		self.update_engery_budget_status = True
 
 	def initializeInstances(self):
+		#FILTER REMOVED TEMPORARILY FOR TELEMETRY TESTING
 		#self.bus = Bus(can_interface,can_filters=FILTER_DICTIONARY_LIST)
 		self.bus = Bus(can_interface)
 		self.can_tools = CAN_Opener.Can_Opener()
