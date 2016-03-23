@@ -27,6 +27,10 @@ Item {
     property alias tran_red: tran_red.opacity
     property alias tran_green: tran_green.opacity
 
+    property alias temp_text_color: tempN.color
+    property alias temp_text_text: tempN.text
+    property alias tempC: tempC.color
+
     property alias soc_5: soc_5.opacity
     property alias soc_10: soc_10.opacity
     property alias soc_15: soc_15.opacity
@@ -500,5 +504,30 @@ Item {
         font.bold: true
         font.family: "Tahoma"
         font.pixelSize: 175
+    }
+
+    Text {
+        id: tempN
+        x: 104
+        y: 606
+        width: 188
+        height: 118
+        color: qsTr("#ff0000")
+        text: qsTr("0")
+        verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignHCenter
+        font.bold: true
+        styleColor: "#ff0000"
+        font.pixelSize: 100
+    }
+
+    Text {
+        id: tempC
+        x: 304
+        y: 606
+        color: "#ff0000"
+        text: qsTr("C")
+        font.bold: true
+        font.pixelSize: 100
     }
 }
