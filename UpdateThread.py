@@ -6,19 +6,18 @@ from canModules import CAN_Main, CAN_Opener
 #inherit from Qthread and setup our own thread class  
 class UpdateThread(QThread):
     #WARNINGS - Feed INT: 0=BAD 1=GOOD 2=WARN
-    brb = pyqtSignal(int)
     glv_soc = pyqtSignal(int)
     motor_temp = pyqtSignal(int)
     ess_temp = pyqtSignal(int)
-    tran = pyqtSignal(int)
-    
+    charging = pyqtSignal(int)
+    fuel_low = pyqtSignal(int)
+    CAN_down = pyqtSignal(int)
+    motor_on = pyqtSignal(int)
+
     #TEXT - Feed String
     gear = pyqtSignal(str)
-    throttlePercent = pyqtSignal(str)
-    engineTorque = pyqtSignal(str)
     speed = pyqtSignal(str)
     temp_text = pyqtSignal(int)
-    #temp_C = pyqtSignal(str)
 
     #DIAL - Feed INT RPM
     tachNeedle = pyqtSignal(int)
@@ -27,7 +26,7 @@ class UpdateThread(QThread):
     ess_soc = pyqtSignal(int)
     fuel = pyqtSignal(int)
 
-
+    shift = pyqtSignal(int)
 
     def __init__(self,parent=None):  
         super(UpdateThread,self).__init__(parent)  
@@ -38,56 +37,6 @@ class UpdateThread(QThread):
     
     def __del__(self):
         self.wait()
-
-    def demo2(self):
-        for x in range(0,250):
-            self.msleep(100)
-            tmp_engine_temp = x
-            #Find out what units temp is in...
-            self.temp_text.emit(x)
-            if tmp_engine_temp<180:
-                self.motor_temp.emit(2)
-            elif ((tmp_engine_temp>=180) and (tmp_engine_temp<210)):
-                self.motor_temp.emit(0)
-            elif tmp_engine_temp>210:
-                self.motor_temp.emit(1)
-
-
-    def demo(self):
-        #Demos all features
-        self.msleep(2000)
-            
-        self.glv_soc.emit(0)
-        self.motor_temp.emit(0)
-        self.brb.emit(0)
-        self.ess_temp.emit(0)
-        self.tran.emit(0)
-
-        self.engineTorque.emit(str(0))
-        self.throttlePercent.emit(str(0))
-        self.fuel.emit(0)
-        self.ess_soc.emit(0)
-        
-        self.msleep(1000)
-        
-        self.glv_soc.emit(1)
-        self.motor_temp.emit(1)
-        self.brb.emit(1)
-        self.ess_temp.emit(1)
-        self.tran.emit(1)
-        
-        for x in range(0,101):
-            self.fuel.emit(x)
-            self.ess_soc.emit(x)
-            
-            self.speed.emit(str(x))
-            self.tachNeedle.emit(x*120)
-            self.engineTorque.emit(str(x))
-            self.throttlePercent.emit(str(x))
-            self.gear.emit((x-(x%20))/20)
-            self.msleep(30)
-
-        self.motor_temp.emit(2)
 
     def stop(self):
         print("threadClass Stop")
@@ -123,24 +72,6 @@ class UpdateThread(QThread):
             self.speed.emit(str(self.canMain.current_vehicle_speed))
             self.canMain.update_vehicle_speed = False
 
-        if self.canMain.update_throttle_percent:
-            self.throttlePercent.emit(str(self.canMain.current_throttle_percent))
-            self.canMain.update_throttle_percent = False
-
-        if self.canMain.update_engine_torque:
-            tmp_engine_torque = self.canMain.current_engine_torque/10
-            self.engineTorque.emit(str(int(tmp_engine_torque)))
-            self.canMain.update_engine_torque = False
-
-        #DIAL
-        if self.canMain.update_engine_RPM:
-            self.tachNeedle.emit(int(self.canMain.current_engine_RPM))
-            self.canMain.update_engine_RPM = False
-
-        #WARNINGS
-        if self.canMain.update_warning_glv_cockpit_brb:
-            self.glv_soc.emit(int(self.canMain.current_warning_glv_soc_low))
-
         if self.canMain.update_engine_coolant_temp:
             tmp_engine_temp = self.canMain.current_engine_coolant_temp
             #Find out what units temp is in...
@@ -152,17 +83,40 @@ class UpdateThread(QThread):
             elif(tmp_engine_temp<158 or tmp_engine_temp>221):
                 self.motor_temp.emit(1)
 
-        if self.canMain.update_warning_glv_cockpit_brb:
-            self.brb.emit(self.canMain.current_warning_glv_cockpit_brb)
-            self.canMain.update_engine_coolant_temp = False
+        #Shift
+        if self.canMain.update_shift:
+            self.shift.emit(self.canMain.current_shift)
+            self.canMain.update_shift = False
 
+        #DIAL
+        if self.canMain.update_engine_RPM:
+            self.tachNeedle.emit(int(self.canMain.current_engine_RPM))
+            self.canMain.update_engine_RPM = False
+
+        #WARNINGS       
         if self.canMain.update_warning_ess_overtemp:
             self.ess_temp.emit(self.canMain.current_warning_ess_overtemp)
             self.canMain.update_warning_ess_overtemp = False
 
-        if self.canMain.update_warning_transmission_failure:
-            self.tran.emit(self.canMain.current_warning_transmission_failure)
-            self.canMain.update_warning_transmission_failure = False
+        if self.canMain.update_warning_glv_soc:
+            self.glv_soc.emit(self.canMain.current_warning_glv_soc)
+            self.canMain.update_warning_glv_soc = False
+
+        if self.canMain.update_warning_charging:
+            self.charging.emit(self.canMain.current_warning_charging)
+            self.canMain.update_warning_charging = False
+
+        if self.canMain.update_warning_fuel_low:
+            self.fuel_low.emit(self.canMain.current_warning_fuel_low)
+            self.canMain.update_warning_fuel_low = False
+
+        if self.canMain.update_warning_CAN_down:
+            self.CAN_down.emit(self.canMain.current_warning_CAN_down)
+            self.canMain.update_warning_CAN_down = False
+
+        if self.canMain.update_warning_motor_on:
+            self.motor_on.emit(self.canMain.current_warning_motor_on)
+            self.canMain.update_warning_motor_on = False
 
         #BARS
         if self.canMain.update_ess_soc:
