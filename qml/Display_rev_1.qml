@@ -112,6 +112,8 @@ Item {
         source: "images/background.png"
         x: 0
         y: 0
+        sourceSize.height: 800
+        sourceSize.width: 1300
         opacity: 1
     }
     Image {
@@ -748,14 +750,14 @@ Item {
         id: tach_needle
         objectName: "tach_needle"
         source: "images/needle.png"
-        x: 251
-        y: 246
+        x: 252
+        y: 249
         opacity: 1
         transform: Rotation {
             // Transform origin is the middle point of the lower border
             origin {
-                x: 167
-                y: 43
+                x: 31
+                y: 29
             }
             //axis {x: 1; y: 0; z: 0}
             angle: tachNeedleAngle
