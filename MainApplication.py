@@ -24,7 +24,7 @@ class MainApplication(QQuickView):
     fuelYellow = ["fuel_y1","fuel_y2","fuel_y3","fuel_y4","fuel_y5","fuel_y6","fuel_y7","fuel_y8"]
     fuelGreen = ["fuel_g1","fuel_g2","fuel_g3","fuel_g4","fuel_g5","fuel_g6","fuel_g7","fuel_g8","fuel_g9","fuel_g10","fuel_g11","fuel_g12","fuel_g13","fuel_g14","fuel_g15","fuel_g16","fuel_g17","fuel_g18","fuel_g19","fuel_g20"]
 
-    socRed = ["fuel_r1","soc_r2"]
+    socRed = ["soc_r1","soc_r2"]
     socYellow = ["soc_y1","soc_y2","soc_y3","soc_y4","soc_y5","soc_y6","soc_y7","soc_y8"]
     socGreen = ["soc_g1","soc_g2","soc_g3","soc_g4","soc_g5","soc_g6","soc_g7","soc_g8","soc_g9","soc_g10","soc_g11","soc_g12","soc_g13","soc_g14","soc_g15","soc_g16","soc_g17","soc_g18","soc_g19","soc_g20"]
 
@@ -106,7 +106,7 @@ class MainApplication(QQuickView):
 
     def updateFUEL(self, pFUEL):
         #Pass in the fuel percent, this will do the rest for fuel 
-        #and target fuel fuel_y1
+        #and target fuel
         def turn_off(pBar_array):
             for bar in pBar_array:
                 self.qml.setProperty(bar, QVariant(0))
@@ -114,13 +114,26 @@ class MainApplication(QQuickView):
         if(pFUEL<=10):
             turn_off(self.fuelGreen)
             turn_off(self.fuelYellow)
-            counter = 0
-            for bar in self.fuelRed:
-                if(pFUEL>=counter):
-                    self.qml.setProperty(bar, QVariant(1))
-                else:
-                    self.qml.setProperty(bar, QVariant(0))
-                counter+=5
+            
+            if(pFUEL==0):
+                self.qml.setProperty("fuel_r1", QVariant(0))
+            else:
+                self.qml.setProperty("fuel_r1", QVariant(1))
+
+
+            if(pFUEL>5):
+                self.qml.setProperty("fuel_r2", QVariant(1))
+            else:
+                self.qml.setProperty("fuel_r2", QVariant(0))
+
+   
+            # counter = 0
+            # for bar in self.fuelRed:
+            #     if(pFUEL>=counter):
+            #         self.qml.setProperty(bar, QVariant(1))
+            #     else:
+            #         self.qml.setProperty(bar, QVariant(0))
+            #     counter+=5
 
         if(pFUEL>10 and pFUEL<=40):
             turn_off(self.fuelGreen)

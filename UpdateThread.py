@@ -123,7 +123,7 @@ class UpdateThread(QThread):
             self.ess_soc.emit(self.canMain.current_ess_soc)
             self.canMain.update_ess_soc = False
 
-        if self.canMain.update_fuel:
+        if self.canMain.update_fuel or self.canMain.update_target_fuel:
             self.fuel.emit(self.canMain.current_fuel)
             self.canMain.update_fuel = False
 
