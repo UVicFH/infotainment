@@ -44,7 +44,8 @@ class MainApplication(QQuickView):
         
         # Gotta fix this
 
-        goToAngle = (tachRPM*0.0226)+1.3077
+        goToAngle = (tachRPM*0.02)
+        # +1.3077
         self.qml.setProperty("tachNeedleAngle", QVariant(int(goToAngle)))
 
     def updateSpeed(self, pSPEED):  
