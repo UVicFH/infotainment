@@ -116,7 +116,7 @@ class MainApplication(QQuickView):
             turn_off(self.fuelYellow)
             counter = 0
             for bar in self.fuelRed:
-                if(pFUEL>counter):
+                if(pFUEL>=counter):
                     self.qml.setProperty(bar, QVariant(1))
                 else:
                     self.qml.setProperty(bar, QVariant(0))
@@ -127,7 +127,7 @@ class MainApplication(QQuickView):
             turn_off(self.fuelRed)
             counter = 0
             for bar in self.fuelYellow:
-                if(pFUEL>counter):
+                if(pFUEL>=counter):
                     self.qml.setProperty(bar, QVariant(1))
                 else:
                     self.qml.setProperty(bar, QVariant(0))
