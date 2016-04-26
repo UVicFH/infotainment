@@ -110,7 +110,7 @@ class MainApplication(QQuickView):
         def turn_off(pBar_array):
             for bar in pBar_array:
                 self.qml.setProperty(bar, QVariant(0))
-
+        pFUEL = int(pFUEL)
         if(pFUEL<=10):
             turn_off(self.fuelGreen)
             turn_off(self.fuelYellow)
@@ -126,7 +126,6 @@ class MainApplication(QQuickView):
             else:
                 self.qml.setProperty("fuel_r2", QVariant(0))
 
-   
             # counter = 0
             # for bar in self.fuelRed:
             #     if(pFUEL>=counter):
