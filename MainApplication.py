@@ -143,9 +143,9 @@ class MainApplication(QQuickView):
                 else:
                     self.qml.setProperty(bar, QVariant(0))
                 counter+=5
-        if(pFUEL<self.CAN_Main.current_target_fuel):
+        if(pFUEL<self.UpdateThread.canMain.current_target_fuel):
             roundedFUEL = int(pFUEL) - int(pFUEL) % 5
-            roundedTARGET = int(self.CAN_Main.current_target_fuel) - int(self.CAN_Main.current_target_fuel) % 5
+            roundedTARGET = int(elf.UpdateThread.canMain.current_target_fuel) - int(elf.UpdateThread.canMain.current_target_fuel) % 5
             for num in range(0,19):
                 if(num>roundedFUEL/5 and num<=roundedTARGET/5):
                     self.qml.setProperty("fuel_b"+(num+1), QVariant(1))
