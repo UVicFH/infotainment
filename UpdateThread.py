@@ -98,9 +98,9 @@ class UpdateThread(QThread):
             self.ess_temp.emit(self.canMain.current_warning_ess_overtemp)
             self.canMain.update_warning_ess_overtemp = False
 
-        if self.canMain.update_warning_glv_soc:
-            self.glv_soc.emit(self.canMain.current_warning_glv_soc)
-            self.canMain.update_warning_glv_soc = False
+        if self.canMain.update_warning_glv_soc_low:
+            self.glv_soc.emit(self.canMain.current_warning_glv_soc_low)
+            self.canMain.update_warning_glv_soc_low = False
 
         if self.canMain.update_warning_charging:
             self.charging.emit(self.canMain.current_warning_charging)
