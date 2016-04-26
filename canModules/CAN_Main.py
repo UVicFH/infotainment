@@ -269,7 +269,7 @@ class CAN_Main(object):
 		self.previous_target_fuel = self.current_target_fuel
 		self.current_target_fuel = pValue
 		if(self.previous_target_fuel != self.current_target_fuel):
-		self.update_target_fuel = True
+			self.update_target_fuel = True
 	
 	#current gear  set_target_fuel
 	def set_current_gear(self, pValue):
