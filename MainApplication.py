@@ -39,13 +39,8 @@ class MainApplication(QQuickView):
 
 
     def updateTachNeedle(self, tachRPM):
-        # TODO angle is 270 degrees around tach, use mousePressEvent to get position then work around, i know its dusty but its ok
-        # TODO update to allow input to be RPM vs Degrees
-        
-        # Gotta fix this
-
+        #Major ticks are spaced by 20 degrees
         goToAngle = (tachRPM*-0.02)
-        # +1.3077
         self.qml.setProperty("tachNeedleAngle", QVariant(int(goToAngle)))
 
     def updateSpeed(self, pSPEED):  
@@ -148,9 +143,9 @@ class MainApplication(QQuickView):
                 else:
                     self.qml.setProperty(bar, QVariant(0))
                 counter+=5
-        if(pFUEL<CAN_Main.current_target_fuel):
+        if(pFUEL<self.CAN_Main.current_target_fuel):
             roundedFUEL = int(pFUEL) - int(pFUEL) % 5
-            roundedTARGET = int(CAN_Main.current_target_fuel) - int(CAN_Main.current_target_fuel) % 5
+            roundedTARGET = int(self.CAN_Main.current_target_fuel) - int(self.CAN_Main.current_target_fuel) % 5
             for num in range(0,19):
                 if(num>roundedFUEL/5 and num<=roundedTARGET/5):
                     self.qml.setProperty("fuel_b"+(num+1), QVariant(1))
