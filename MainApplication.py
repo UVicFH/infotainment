@@ -137,24 +137,120 @@ class MainApplication(QQuickView):
         if(pFUEL>10 and pFUEL<=40):
             turn_off(self.fuelGreen)
             turn_off(self.fuelRed)
-            counter = 0
-            for bar in self.fuelYellow:
-                if(pFUEL>=counter):
-                    self.qml.setProperty(bar, QVariant(1))
-                else:
-                    self.qml.setProperty(bar, QVariant(0))
-                counter+=5
+
+            self.qml.setProperty("fuel_y1", QVariant(1))
+            self.qml.setProperty("fuel_y2", QVariant(0))
+            self.qml.setProperty("fuel_y3", QVariant(1))
+
+            if(pFUEL>15):
+                self.qml.setProperty("fuel_y4", QVariant(1))
+            else:
+                self.qml.setProperty("fuel_y4", QVariant(0))
+
+            if(pFUEL>20):
+                self.qml.setProperty("fuel_y5", QVariant(1))
+            else:
+                self.qml.setProperty("fuel_y5", QVariant(0))
+
+            if(pFUEL>25):
+                self.qml.setProperty("fuel_y6", QVariant(1))
+            else:
+                self.qml.setProperty("fuel_y6", QVariant(0))
+
+            if(pFUEL>30):
+                self.qml.setProperty("fuel_y7", QVariant(1))
+            else:
+                self.qml.setProperty("fuel_y7", QVariant(0))
+
+            if(pFUEL>35):
+                self.qml.setProperty("fuel_y8", QVariant(1))
+            else:
+                self.qml.setProperty("fuel_y8", QVariant(0))
+
+            # counter = 0
+            # for bar in self.fuelYellow:
+            #     if(pFUEL>=counter):
+            #         self.qml.setProperty(bar, QVariant(1))
+            #     else:
+            #         self.qml.setProperty(bar, QVariant(0))
+            #     counter+=5
 
         if(pFUEL>40):
             turn_off(self.fuelRed)
             turn_off(self.fuelYellow)
-            counter = 0
-            for bar in self.fuelGreen:
-                if(pFUEL>counter):
-                    self.qml.setProperty(bar, QVariant(1))
-                else:
-                    self.qml.setProperty(bar, QVariant(0))
-                counter+=5
+            
+            self.qml.setProperty("fuel_g1", QVariant(1))
+            self.qml.setProperty("fuel_g2", QVariant(1))
+            self.qml.setProperty("fuel_g3", QVariant(1))
+            self.qml.setProperty("fuel_g4", QVariant(1))
+            self.qml.setProperty("fuel_g5", QVariant(1))
+            self.qml.setProperty("fuel_g6", QVariant(1))
+            self.qml.setProperty("fuel_g7", QVariant(1))
+            self.qml.setProperty("fuel_g8", QVariant(1))
+            self.qml.setProperty("fuel_g9", QVariant(1))
+
+            if(pFUEL>45):
+                self.qml.setProperty("fuel_g10", QVariant(1))
+            else:
+                self.qml.setProperty("fuel_g10", QVariant(0))
+            
+            if(pFUEL>50):
+                self.qml.setProperty("fuel_g11", QVariant(1))
+            else:
+                self.qml.setProperty("fuel_g11", QVariant(0))
+            
+            if(pFUEL>55):
+                self.qml.setProperty("fuel_g12", QVariant(1))
+            else:
+                self.qml.setProperty("fuel_g12", QVariant(0))
+            
+            if(pFUEL>60):
+                self.qml.setProperty("fuel_g13", QVariant(1))
+            else:
+                self.qml.setProperty("fuel_g13", QVariant(0))
+            
+            if(pFUEL>65):
+                self.qml.setProperty("fuel_g14", QVariant(1))
+            else:
+                self.qml.setProperty("fuel_g14", QVariant(0))
+            
+            if(pFUEL>70):
+                self.qml.setProperty("fuel_g15", QVariant(1))
+            else:
+                self.qml.setProperty("fuel_g15", QVariant(0))
+            
+            if(pFUEL>75):
+                self.qml.setProperty("fuel_g16", QVariant(1))
+            else:
+                self.qml.setProperty("fuel_g16", QVariant(0))
+            
+            if(pFUEL>80):
+                self.qml.setProperty("fuel_g17", QVariant(1))
+            else:
+                self.qml.setProperty("fuel_g17", QVariant(0))
+            
+            if(pFUEL>85):
+                self.qml.setProperty("fuel_g18", QVariant(1))
+            else:
+                self.qml.setProperty("fuel_g18", QVariant(0))
+            
+            if(pFUEL>90):
+                self.qml.setProperty("fuel_g19", QVariant(1))
+            else:
+                self.qml.setProperty("fuel_g19", QVariant(0))
+            
+            if(pFUEL>95):
+                self.qml.setProperty("fuel_g20", QVariant(1))
+            else:
+                self.qml.setProperty("fuel_g20", QVariant(0))
+
+            # counter = 0
+            # for bar in self.fuelGreen:
+            #     if(pFUEL>counter):
+            #         self.qml.setProperty(bar, QVariant(1))
+            #     else:
+            #         self.qml.setProperty(bar, QVariant(0))
+            #     counter+=5
 
         #if(pFUEL<self.updateThread.canMain.current_target_fuel):
         roundedFUEL = pFUEL - (pFUEL % 5)
