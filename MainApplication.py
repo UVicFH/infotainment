@@ -66,21 +66,21 @@ class MainApplication(QQuickView):
                 self.qml.setProperty(bar, QVariant(0))
 
         if(pESS_SOC<=10):
-            turn_off(socGreen)
-            turn_off(socYellow)
+            turn_off(self.socGreen)
+            turn_off(self.socYellow)
             counter = 0
-            for bar in socRed:
+            for bar in self.socRed:
                 if(pESS_SOC>counter):
-                    self.qml.setProperty(bar, QVariant(1))
+                    self.qml.setProperty(self.bar, QVariant(1))
                 else:
-                    self.qml.setProperty(bar, QVariant(0))
+                    self.qml.setProperty(self.bar, QVariant(0))
                 counter+=5
 
         if(pESS_SOC>10 and pESS_SOC<=40):
-            turn_off(socGreen)
-            turn_off(socRed)
+            turn_off(self.socGreen)
+            turn_off(self.socRed)
             counter = 0
-            for bar in socYellow:
+            for bar in self.socYellow:
                 if(pESS_SOC>counter):
                     self.qml.setProperty(bar, QVariant(1))
                 else:
@@ -88,10 +88,10 @@ class MainApplication(QQuickView):
                 counter+=5
 
         if(pESS_SOC>40):
-            turn_off(socRed)
-            turn_off(socYellow)
+            turn_off(self.socRed)
+            turn_off(self.socYellow)
             counter = 0
-            for bar in socGreen:
+            for bar in self.socGreen:
                 if(pESS_SOC>counter):
                     self.qml.setProperty(bar, QVariant(1))
                 else:
@@ -117,10 +117,10 @@ class MainApplication(QQuickView):
                 self.qml.setProperty(bar, QVariant(0))
 
         if(pFUEL<=10):
-            turn_off(fuelGreen)
-            turn_off(fuelYellow)
+            turn_off(self.fuelGreen)
+            turn_off(self.fuelYellow)
             counter = 0
-            for bar in fuelRed:
+            for bar in self.fuelRed:
                 if(pFUEL>counter):
                     self.qml.setProperty(bar, QVariant(1))
                 else:
@@ -128,10 +128,10 @@ class MainApplication(QQuickView):
                 counter+=5
 
         if(pFUEL>10 and pFUEL<=40):
-            turn_off(fuelGreen)
-            turn_off(fuelRed)
+            turn_off(self.fuelGreen)
+            turn_off(self.fuelRed)
             counter = 0
-            for bar in fuelYellow:
+            for bar in self.fuelYellow:
                 if(pFUEL>counter):
                     self.qml.setProperty(bar, QVariant(1))
                 else:
@@ -139,10 +139,10 @@ class MainApplication(QQuickView):
                 counter+=5
 
         if(pFUEL>40):
-            turn_off(fuelRed)
-            turn_off(fuelYellow)
+            turn_off(self.fuelRed)
+            turn_off(self.fuelYellow)
             counter = 0
-            for bar in fuelGreen:
+            for bar in self.fuelGreen:
                 if(pFUEL>counter):
                     self.qml.setProperty(bar, QVariant(1))
                 else:
