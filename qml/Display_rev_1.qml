@@ -187,6 +187,166 @@ Item {
         opacity: 1
     }
     Image {
+        id: fuel_b20
+        source: "images/fuel_b20.png"
+        x: 1196
+        y: 72
+        opacity: 1
+    }
+
+    Image {
+        id: fuel_b19
+        source: "images/fuel_b19.png"
+        x: 1176
+        y: 72
+        opacity: 1
+    }
+
+    Image {
+        id: fuel_b18
+        source: "images/fuel_b18.png"
+        x: 1155
+        y: 72
+        opacity: 1
+    }
+
+    Image {
+        id: fuel_b17
+        source: "images/fuel_b17.png"
+        x: 1135
+        y: 72
+        opacity: 1
+    }
+
+    Image {
+        id: fuel_b16
+        source: "images/fuel_b16.png"
+        x: 1115
+        y: 72
+        opacity: 1
+    }
+
+    Image {
+        id: fuel_b15
+        source: "images/fuel_b15.png"
+        x: 1094
+        y: 72
+        opacity: 1
+    }
+
+    Image {
+        id: fuel_b14
+        source: "images/fuel_b14.png"
+        x: 1074
+        y: 72
+        opacity: 1
+    }
+
+    Image {
+        id: fuel_b13
+        source: "images/fuel_b13.png"
+        x: 1054
+        y: 72
+        opacity: 1
+    }
+
+    Image {
+        id: fuel_b12
+        source: "images/fuel_b12.png"
+        x: 1034
+        y: 72
+        opacity: 1
+    }
+
+    Image {
+        id: fuel_b11
+        source: "images/fuel_b11.png"
+        x: 1013
+        y: 72
+        opacity: 1
+    }
+
+    Image {
+        id: fuel_b10
+        source: "images/fuel_b10.png"
+        x: 993
+        y: 72
+        opacity: 1
+    }
+
+    Image {
+        id: fuel_b9
+        source: "images/fuel_b9.png"
+        x: 973
+        y: 72
+        opacity: 1
+    }
+
+    Image {
+        id: fuel_b8
+        source: "images/fuel_b8.png"
+        x: 953
+        y: 72
+        opacity: 1
+    }
+
+    Image {
+        id: fuel_b7
+        source: "images/fuel_b7.png"
+        x: 932
+        y: 72
+        opacity: 1
+    }
+
+    Image {
+        id: fuel_b6
+        source: "images/fuel_b6.png"
+        x: 912
+        y: 72
+        opacity: 1
+    }
+
+    Image {
+        id: fuel_b5
+        source: "images/fuel_b5.png"
+        x: 892
+        y: 72
+        opacity: 1
+    }
+
+    Image {
+        id: fuel_b4
+        source: "images/fuel_b4.png"
+        x: 872
+        y: 72
+        opacity: 1
+    }
+
+    Image {
+        id: fuel_b3
+        source: "images/fuel_b3.png"
+        x: 851
+        y: 72
+        opacity: 1
+    }
+
+    Image {
+        id: fuel_b2
+        source: "images/fuel_b2.png"
+        x: 831
+        y: 72
+        opacity: 1
+    }
+
+    Image {
+        id: fuel_b1
+        source: "images/fuel_b1.png"
+        x: 811
+        y: 72
+        opacity: 1
+    }
+
+    Image {
         id: fuel_r1
         source: "images/fuel_r1.png"
         x: 811
@@ -253,146 +413,6 @@ Item {
         id: fuel_y8
         source: "images/fuel_y8.png"
         x: 953
-        y: 72
-        opacity: 1
-    }
-    Image {
-        id: fuel_b1
-        source: "images/fuel_b1.png"
-        x: 811
-        y: 72
-        opacity: 1
-    }
-    Image {
-        id: fuel_b2
-        source: "images/fuel_b2.png"
-        x: 831
-        y: 72
-        opacity: 1
-    }
-    Image {
-        id: fuel_b3
-        source: "images/fuel_b3.png"
-        x: 851
-        y: 72
-        opacity: 1
-    }
-    Image {
-        id: fuel_b4
-        source: "images/fuel_b4.png"
-        x: 872
-        y: 72
-        opacity: 1
-    }
-    Image {
-        id: fuel_b5
-        source: "images/fuel_b5.png"
-        x: 892
-        y: 72
-        opacity: 1
-    }
-    Image {
-        id: fuel_b6
-        source: "images/fuel_b6.png"
-        x: 912
-        y: 72
-        opacity: 1
-    }
-    Image {
-        id: fuel_b7
-        source: "images/fuel_b7.png"
-        x: 932
-        y: 72
-        opacity: 1
-    }
-    Image {
-        id: fuel_b8
-        source: "images/fuel_b8.png"
-        x: 953
-        y: 72
-        opacity: 1
-    }
-    Image {
-        id: fuel_b9
-        source: "images/fuel_b9.png"
-        x: 973
-        y: 72
-        opacity: 1
-    }
-    Image {
-        id: fuel_b10
-        source: "images/fuel_b10.png"
-        x: 993
-        y: 72
-        opacity: 1
-    }
-    Image {
-        id: fuel_b11
-        source: "images/fuel_b11.png"
-        x: 1013
-        y: 72
-        opacity: 1
-    }
-    Image {
-        id: fuel_b12
-        source: "images/fuel_b12.png"
-        x: 1034
-        y: 72
-        opacity: 1
-    }
-    Image {
-        id: fuel_b13
-        source: "images/fuel_b13.png"
-        x: 1054
-        y: 72
-        opacity: 1
-    }
-    Image {
-        id: fuel_b14
-        source: "images/fuel_b14.png"
-        x: 1074
-        y: 72
-        opacity: 1
-    }
-    Image {
-        id: fuel_b15
-        source: "images/fuel_b15.png"
-        x: 1094
-        y: 72
-        opacity: 1
-    }
-    Image {
-        id: fuel_b16
-        source: "images/fuel_b16.png"
-        x: 1115
-        y: 72
-        opacity: 1
-    }
-    Image {
-        id: fuel_b17
-        source: "images/fuel_b17.png"
-        x: 1135
-        y: 72
-        opacity: 1
-    }
-    Image {
-        id: fuel_b18
-        source: "images/fuel_b18.png"
-        x: 1155
-        y: 72
-        opacity: 1
-    }
-    Image {
-        id: fuel_b19
-        source: "images/fuel_b19.png"
-        x: 1176
-        y: 72
-        opacity: 1
-    }
-    Image {
-        id: fuel_b20
-        source: "images/fuel_b20.png"
-        x: 1196
         y: 72
         opacity: 1
     }
