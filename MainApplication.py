@@ -55,6 +55,7 @@ class MainApplication(QQuickView):
                 self.qml.setProperty(bar, QVariant(0))
 
         pESS_SOC = int(pESS_SOC)
+        
         if(pESS_SOC<=10):
             turn_off(self.socGreen)
             turn_off(self.socYellow)

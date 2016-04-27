@@ -327,7 +327,7 @@ class CAN_Main(object):
 	def message_vechicle_fast(self, data):
 		self.set_engine_RPM(data[3]*256 + data[2]) #2 bytes
 		self.set_vehicle_speed(self.shiftData(data[4], 1)) #div by 2
-		self.set_ess_soc(data[5]*2)
+		self.set_ess_soc(self.shiftData(data[5], 1)) #div by 2
 		self.set_current_gear(data[6] & FOUR_BIT_MASK) #Lowest 4 bits
 		self.set_shift(self.shiftData(data[6],4) & ONE_BIT_MASK)
 
@@ -342,8 +342,8 @@ class CAN_Main(object):
 		self.set_warning_ess_overtemp(self.shiftData(data[0], 2) & ONE_BIT_MASK)
 		self.set_warning_CAN_down(self.shiftData(data[0], 4) & ONE_BIT_MASK)
 		self.set_warning_charging(self.shiftData(data[0], 5) & ONE_BIT_MASK)
-		self.set_warning_motor_on(self.shiftData(data[0], 5) & ONE_BIT_MASK)
-		self.set_warning_glv_soc(self.shiftData(data[0], 6) & ONE_BIT_MASK)
+		self.set_warning_motor_on(self.shiftData(data[0], 6) & ONE_BIT_MASK)
+		self.set_warning_glv_soc(self.shiftData(data[0], 7) & ONE_BIT_MASK)
 
 
 
