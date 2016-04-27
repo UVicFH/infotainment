@@ -408,14 +408,14 @@ class MainApplication(QQuickView):
     warn power on
 
     '''
-    def updateMOTOR_OVER_TEMP(self, pSTATUS):
+    def updateMOTOR_OVER_TEMP(self, pMOTOR_TEMP):
         if(pMOTOR_TEMP==self.GOOD): #GOOD
             self.qml.setProperty("motor_temp_red", QVariant(0)) 
             self.qml.setProperty("motor_temp_yellow", QVariant(0))
-        if(pSTATUS==self.BAD): #BAD
+        if(pMOTOR_TEMP==self.BAD): #BAD
             self.qml.setProperty("motor_temp_red", QVariant(1)) 
             self.qml.setProperty("motor_temp_yellow", QVariant(0))  
-        if(pSTATUS==self.WARN): #WARN
+        if(pMOTOR_TEMP==self.WARN): #WARN
             self.qml.setProperty("motor_temp_red", QVariant(0)) 
             self.qml.setProperty("motor_temp_yellow", QVariant(1))
 
