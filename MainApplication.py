@@ -439,15 +439,15 @@ class MainApplication(QQuickView):
 
     def updateCHARGING(self, pCHARGE_STATUS):
         if(pCHARGE_STATUS==self.GOOD): #GOOD
-            self.qml.setProperty("power_on", QVariant(0))
+            self.qml.setProperty("charging_yellow", QVariant(0))
         if(pCHARGE_STATUS==self.BAD): #BAD
-            self.qml.setProperty("power_on", QVariant(1))
+            self.qml.setProperty("charging_yellow", QVariant(1))
     
     def updateMOTOR_ON(self, pMOTOR_STATUS):
         if(pMOTOR_STATUS==self.GOOD): #GOOD
-            self.qml.setProperty("can_red", QVariant(0))
+            self.qml.setProperty("power_on", QVariant(0))
         if(pMOTOR_STATUS==self.BAD): #BAD
-            self.qml.setProperty("can_red", QVariant(1))
+            self.qml.setProperty("power_on", QVariant(1))
 
     def updateGLV_SOC(self, pGLV_SOC): 
         if(pGLV_SOC==self.GOOD): #GOOD
