@@ -22,6 +22,9 @@ Item {
     property alias tach_shift: tach_shift.opacity
     property alias tach: tach.opacity
 
+    property alias soc_r1: soc_r1.opacity
+    property alias soc_r2: soc_r2.opacity
+
     property alias soc_y1: soc_y1.opacity
     property alias soc_y2: soc_y2.opacity
     property alias soc_y3: soc_y3.opacity
@@ -785,8 +788,8 @@ Item {
     }
     Text {
         id: speed
-        x: 170
-        y: 415
+        x: 174
+        y: 412
         width: 174
         height: 109
         color: "#9b8e8e"
@@ -794,7 +797,7 @@ Item {
         horizontalAlignment: Text.AlignRight
         verticalAlignment: Text.AlignVCenter
         font.bold: true
-        font.family: "Arial"
+        font.family: "Tahoma"
         font.pixelSize: 90
     }
     Text {
@@ -815,6 +818,7 @@ Item {
         height: 118
         color: qsTr("#ff0000")
         text: qsTr("0")
+        font.family: "Tahoma"
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
         font.bold: true

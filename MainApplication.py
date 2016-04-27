@@ -36,8 +36,6 @@ class MainApplication(QQuickView):
         self.setupUpdateThread()  
         self.qml = self.rootObject()
        
-
-
     def updateTachNeedle(self, tachRPM):
         #Major ticks are spaced by 20 degrees
         goToAngle = (tachRPM*-0.02)
@@ -55,7 +53,7 @@ class MainApplication(QQuickView):
                 self.qml.setProperty(bar, QVariant(0))
 
         pESS_SOC = int(pESS_SOC)
-        
+
         if(pESS_SOC<=10):
             turn_off(self.socGreen)
             turn_off(self.socYellow)
