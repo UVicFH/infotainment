@@ -48,50 +48,162 @@ class MainApplication(QQuickView):
 
 
     def updateESS_SOC(self, pESS_SOC):
-        #Pass in the SOC percent, this will do the rest
-        for i in range(0,20):
-            if(pESS_SOC>(i*5)):
-                self.qml.setProperty("soc_"+str((i+1)*5), QVariant(1))
-            else:
-                self.qml.setProperty("soc_"+str((i+1)*5), QVariant(0))
         #Pass in the soc percent, this will do the rest for soc 
         #and target soc soc_y1
         def turn_off(pBar_array):
             for bar in pBar_array:
                 self.qml.setProperty(bar, QVariant(0))
 
+        pESS_SOC = int(pESS_SOC)
         if(pESS_SOC<=10):
             turn_off(self.socGreen)
             turn_off(self.socYellow)
-            counter = 0
-            for bar in self.socRed:
-                if(pESS_SOC>counter):
-                    self.qml.setProperty(self.bar, QVariant(1))
-                else:
-                    self.qml.setProperty(self.bar, QVariant(0))
-                counter+=5
+            
+            if(pESS_SOC==0):
+                self.qml.setProperty("soc_r1", QVariant(0))
+            else:
+                self.qml.setProperty("soc_r1", QVariant(1))
+
+
+            if(pESS_SOC>5):
+                self.qml.setProperty("soc_r2", QVariant(1))
+            else:
+                self.qml.setProperty("soc_r2", QVariant(0))
 
         if(pESS_SOC>10 and pESS_SOC<=40):
             turn_off(self.socGreen)
             turn_off(self.socRed)
-            counter = 0
-            for bar in self.socYellow:
-                if(pESS_SOC>counter):
-                    self.qml.setProperty(bar, QVariant(1))
-                else:
-                    self.qml.setProperty(bar, QVariant(0))
-                counter+=5
+
+            self.qml.setProperty("soc_y1", QVariant(1))
+            self.qml.setProperty("soc_y2", QVariant(1))
+            self.qml.setProperty("soc_y3", QVariant(1))
+
+            if(pESS_SOC>15):
+                self.qml.setProperty("soc_y4", QVariant(1))
+            else:
+                self.qml.setProperty("soc_y4", QVariant(0))
+
+            if(pESS_SOC>20):
+                self.qml.setProperty("soc_y5", QVariant(1))
+            else:
+                self.qml.setProperty("soc_y5", QVariant(0))
+
+            if(pESS_SOC>25):
+                self.qml.setProperty("soc_y6", QVariant(1))
+            else:
+                self.qml.setProperty("soc_y6", QVariant(0))
+
+            if(pESS_SOC>30):
+                self.qml.setProperty("soc_y7", QVariant(1))
+            else:
+                self.qml.setProperty("soc_y7", QVariant(0))
+
+            if(pESS_SOC>35):
+                self.qml.setProperty("soc_y8", QVariant(1))
+            else:
+                self.qml.setProperty("soc_y8", QVariant(0))
 
         if(pESS_SOC>40):
             turn_off(self.socRed)
             turn_off(self.socYellow)
-            counter = 0
-            for bar in self.socGreen:
-                if(pESS_SOC>counter):
-                    self.qml.setProperty(bar, QVariant(1))
-                else:
-                    self.qml.setProperty(bar, QVariant(0))
-                counter+=5
+            
+            self.qml.setProperty("soc_g1", QVariant(1))
+            self.qml.setProperty("soc_g2", QVariant(1))
+            self.qml.setProperty("soc_g3", QVariant(1))
+            self.qml.setProperty("soc_g4", QVariant(1))
+            self.qml.setProperty("soc_g5", QVariant(1))
+            self.qml.setProperty("soc_g6", QVariant(1))
+            self.qml.setProperty("soc_g7", QVariant(1))
+            self.qml.setProperty("soc_g8", QVariant(1))
+            self.qml.setProperty("soc_g9", QVariant(1))
+
+            if(pESS_SOC>45):
+                self.qml.setProperty("soc_g10", QVariant(1))
+            else:
+                self.qml.setProperty("soc_g10", QVariant(0))
+            
+            if(pESS_SOC>50):
+                self.qml.setProperty("soc_g11", QVariant(1))
+            else:
+                self.qml.setProperty("soc_g11", QVariant(0))
+            
+            if(pESS_SOC>55):
+                self.qml.setProperty("soc_g12", QVariant(1))
+            else:
+                self.qml.setProperty("soc_g12", QVariant(0))
+            
+            if(pESS_SOC>60):
+                self.qml.setProperty("soc_g13", QVariant(1))
+            else:
+                self.qml.setProperty("soc_g13", QVariant(0))
+            
+            if(pESS_SOC>65):
+                self.qml.setProperty("soc_g14", QVariant(1))
+            else:
+                self.qml.setProperty("soc_g14", QVariant(0))
+            
+            if(pESS_SOC>70):
+                self.qml.setProperty("soc_g15", QVariant(1))
+            else:
+                self.qml.setProperty("soc_g15", QVariant(0))
+            
+            if(pESS_SOC>75):
+                self.qml.setProperty("soc_g16", QVariant(1))
+            else:
+                self.qml.setProperty("soc_g16", QVariant(0))
+            
+            if(pESS_SOC>80):
+                self.qml.setProperty("soc_g17", QVariant(1))
+            else:
+                self.qml.setProperty("soc_g17", QVariant(0))
+            
+            if(pESS_SOC>85):
+                self.qml.setProperty("soc_g18", QVariant(1))
+            else:
+                self.qml.setProperty("soc_g18", QVariant(0))
+            
+            if(pESS_SOC>90):
+                self.qml.setProperty("soc_g19", QVariant(1))
+            else:
+                self.qml.setProperty("soc_g19", QVariant(0))
+            
+            if(pESS_SOC>95):
+                self.qml.setProperty("soc_g20", QVariant(1))
+            else:
+                self.qml.setProperty("soc_g20", QVariant(0))
+
+        # if(pESS_SOC<=10):
+        #     turn_off(self.socGreen)
+        #     turn_off(self.socYellow)
+        #     counter = 0
+        #     for bar in self.socRed:
+        #         if(pESS_SOC>counter):
+        #             self.qml.setProperty(self.bar, QVariant(1))
+        #         else:
+        #             self.qml.setProperty(self.bar, QVariant(0))
+        #         counter+=5
+
+        # if(pESS_SOC>10 and pESS_SOC<=40):
+        #     turn_off(self.socGreen)
+        #     turn_off(self.socRed)
+        #     counter = 0
+        #     for bar in self.socYellow:
+        #         if(pESS_SOC>counter):
+        #             self.qml.setProperty(bar, QVariant(1))
+        #         else:
+        #             self.qml.setProperty(bar, QVariant(0))
+        #         counter+=5
+
+        # if(pESS_SOC>40):
+        #     turn_off(self.socRed)
+        #     turn_off(self.socYellow)
+        #     counter = 0
+        #     for bar in self.socGreen:
+        #         if(pESS_SOC>counter):
+        #             self.qml.setProperty(bar, QVariant(1))
+        #         else:
+        #             self.qml.setProperty(bar, QVariant(0))
+        #         counter+=5
 
     def updateGear(self, pGEAR):  
         self.qml.setProperty("gear", QVariant(str(pGEAR)))
@@ -110,6 +222,7 @@ class MainApplication(QQuickView):
         def turn_off(pBar_array):
             for bar in pBar_array:
                 self.qml.setProperty(bar, QVariant(0))
+
         pFUEL = int(pFUEL)
         if(pFUEL<=10):
             turn_off(self.fuelGreen)
@@ -139,7 +252,7 @@ class MainApplication(QQuickView):
             turn_off(self.fuelRed)
 
             self.qml.setProperty("fuel_y1", QVariant(1))
-            self.qml.setProperty("fuel_y2", QVariant(0))
+            self.qml.setProperty("fuel_y2", QVariant(1))
             self.qml.setProperty("fuel_y3", QVariant(1))
 
             if(pFUEL>15):
