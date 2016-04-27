@@ -75,13 +75,13 @@ class UpdateThread(QThread):
         if self.canMain.update_engine_coolant_temp:
             tmp_engine_temp = self.canMain.current_engine_coolant_temp
             #Find out what units temp is in...
-            self.temp_text.emit(tmp_engine_temp)
+            self.UpdateThread.updateMOTOR_TEMP_HACK(tmp_engine_temp)
             if((158<=tmp_engine_temp<176) or (203<tmp_engine_temp<=221)):
-                self.motor_temp.emit(2)
+                self.temp_text.emit(2)
             elif (176 <= tmp_engine_temp <= 203):
-                self.motor_temp.emit(0)
+                self.temp_text.emit(0)
             elif(tmp_engine_temp<158 or tmp_engine_temp>221):
-                self.motor_temp.emit(1)
+                self.temp_text.emit(1)
 
         #Shift
         if self.canMain.update_shift:

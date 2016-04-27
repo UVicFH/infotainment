@@ -381,13 +381,10 @@ class MainApplication(QQuickView):
     def updateMOTOR_TEMP(self, pMOTOR_TEMP): 
         if(pMOTOR_TEMP==self.GOOD): #GOOD
             self.qml.setProperty("temp_text_color", QVariant("#00FF00"))
-        #    self.qml.setProperty("tempC", QVariant("#00FF00"))
         if(pMOTOR_TEMP==self.BAD): #BAD
             self.qml.setProperty("temp_text_color", QVariant("#FF0000"))
-        #    self.qml.setProperty("tempC", QVariant("#FF0000"))     
         if(pMOTOR_TEMP==self.WARN): #WARN
             self.qml.setProperty("temp_text_color", QVariant("#FFFF00"))
-        #    self.qml.setProperty("tempC", QVariant("#FFFF00"))
     '''
     Need:
     RPM
@@ -465,7 +462,7 @@ class MainApplication(QQuickView):
         # Connect our update function to the progress signal of the update thread  
         self.updateThread.speed.connect(self.updateSpeed)
         self.updateThread.gear.connect(self.updateGear)
-        self.updateThread.temp_text.connect(self.updateMOTOR_TEMP_HACK)
+        self.updateThread.temp_text.connect(self.updateMOTOR_TEMP)
 
         self.updateThread.shift.connect(self.updateSHIFT)
 
