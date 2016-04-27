@@ -468,7 +468,7 @@ class MainApplication(QQuickView):
         self.updateThread.temp_text.connect(self.updateMOTOR_TEMP_HACK)
 
         self.updateThread.shift.connect(self.updateSHIFT)
-        
+
         self.updateThread.glv_soc.connect(self.updateGLV_SOC)
         self.updateThread.motor_temp.connect(self.updateMOTOR_OVER_TEMP)
         self.updateThread.ess_temp.connect(self.updateESS_TEMP)

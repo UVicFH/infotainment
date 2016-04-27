@@ -98,6 +98,10 @@ class UpdateThread(QThread):
             self.ess_temp.emit(self.canMain.current_warning_ess_overtemp)
             self.canMain.update_warning_ess_overtemp = False
 
+        if self.canMain.update_warning_motor_over_temp:
+            self.motor_temp.emit(self.canMain.current_warning_motor_over_temp)
+            self.canMain.update_warning_motor_over_temp = False
+
         if self.canMain.update_warning_glv_soc_low:
             self.glv_soc.emit(self.canMain.current_warning_glv_soc_low)
             self.canMain.update_warning_glv_soc_low = False
