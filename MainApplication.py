@@ -463,6 +463,7 @@ class MainApplication(QQuickView):
         self.updateThread.speed.connect(self.updateSpeed)
         self.updateThread.gear.connect(self.updateGear)
         self.updateThread.temp_text.connect(self.updateMOTOR_TEMP)
+        self.updateThread.temp_color.connect(self.updateMOTOR_TEMP_HACK)
 
         self.updateThread.shift.connect(self.updateSHIFT)
 

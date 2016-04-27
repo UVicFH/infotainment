@@ -18,6 +18,7 @@ class UpdateThread(QThread):
     gear = pyqtSignal(str)
     speed = pyqtSignal(str)
     temp_text = pyqtSignal(int)
+    temp_color = pyqtSignal(int)
 
     #DIAL - Feed INT RPM
     tachNeedle = pyqtSignal(int)
@@ -75,7 +76,7 @@ class UpdateThread(QThread):
         if self.canMain.update_engine_coolant_temp:
             tmp_engine_temp = self.canMain.current_engine_coolant_temp
             #Find out what units temp is in...
-            self.UpdateThread.updateMOTOR_TEMP_HACK(tmp_engine_temp)
+            self.temp_color.emit(tmp_engine_temp)
             if((158<=tmp_engine_temp<176) or (203<tmp_engine_temp<=221)):
                 self.temp_text.emit(2)
             elif (176 <= tmp_engine_temp <= 203):
