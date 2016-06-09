@@ -10,6 +10,7 @@ Combines both CAN_MAIN and CAN_HANDLER
 
 """
 For message filtering
+Filtering has been removed temporarily
 
 ID we care about
 0x100
@@ -91,10 +92,10 @@ class CAN_Main(object):
 	#previous_vehicle_speed = -2
 	#update_vehicle_speed = False
 	
-	#try:
-	serialport = serial.Serial("/dev/ttyUSB0", 9600, timeout=0.5)
-	#except:
-	#	print("No Serial Port detected")
+	try:
+		serialport = serial.Serial("/dev/ttyUSB0", 115200, timeout=0.5)
+	except:
+		print("No Serial Port detected")
 		
 	def __init__(self):
 		
@@ -107,31 +108,19 @@ class CAN_Main(object):
 		self.current_engine_coolant_temp = 0 
 		self.previous_engine_coolant_temp = 0
 		self.update_engine_coolant_temp = False
-		
-		self.current_engine_torque = 0
-		self.previous_engine_torque = 0
-		self.update_engine_torque = False
-		
+
 		self.current_engine_RPM = 0
 		self.previous_engine_RPM = 0
 		self.update_engine_RPM = False
-		
-		self.current_throttle_percent = 0
-		self.previous_throttle_percent = 0
-		self.update_throttle_percent = False
+
+		self.current_shift = 0
+		self.previous_shift = 0
+		self.update_shift = False
 
 		#Warnings
 		self.current_warning_ess_overtemp = 0
 		self.previous_warning_ess_overtemp = 0
 		self.update_warning_ess_overtemp = False
-
-		#self.current_warning_fuel_level_low = 0
-		#self.previous_warning_fuel_level_low = 0
-		#self.update_warning_fuel_level_low = False
-
-		self.current_warning_glv_cockpit_brb = 0
-		self.previous_warning_glv_cockpit_brb = 0
-		self.update_warning_glv_cockpit_brb = False
 
 		self.current_warning_glv_soc_low = 0
 		self.previous_warning_glv_soc_low = 0
@@ -141,9 +130,21 @@ class CAN_Main(object):
 		self.previous_warning_motor_over_temp = 0
 		self.update_warning_motor_over_temp = False
 
-		self.current_warning_transmission_failure = 0 
-		self.previous_warning_transmission_failure = 0
-		self.update_warning_transmission_failure = False
+		self.current_warning_charging = 0
+		self.previous_warning_charging = 0
+		self.update_warning_charging = False
+
+		self.current_warning_fuel_low = 0
+		self.previous_warning_fuel_low = 0
+		self.update_warning_fuel_low = False
+
+		self.current_warning_CAN_down = 0
+		self.previous_warning_CAN_down = 0
+		self.update_warning_CAN_down = False
+
+		self.current_warning_motor_on = 0
+		self.previous_warning_motor_on = 0
+		self.update_warning_motor_on = False
 	
 		#Electrical Systems
 		self.current_ess_soc = 0
@@ -154,32 +155,18 @@ class CAN_Main(object):
 		self.previous_fuel = 0
 		self.update_fuel = False
 
-		#self.current_ess_voltage = 0
-		#self.previous_ess_voltage = 0
-		#self.update_ess_voltage = False
-
-		#Control 
-		#self.current_odometer = 0
-		#self.previous_odometer= 0
-		#self.update_odometer = False
-
-		#self.current_current_control_mode = 0 #not confusing at all
-		#self.previous_current_control_mode = 0
-		#self.update_current_control_mode = False
+		self.current_target_fuel = 0
+		self.previous_target_fuel = 0
+		self.update_target_fuel = False
 
 		self.current_current_gear = 0
 		self.previous_current_gear = 0
 		self.update_current_gear = False
-		
-		
+				
 		self.current_vehicle_speed = 0
 		self.previous_vehicle_speed = 0
 		self.update_vehicle_speed = False
 
-		#self.current_engery_budget_status = 0
-		#self.previous_engery_budget_status = 0
-		#self.update_engery_budget_status = False
-	
 	def telemetry(self, pFrame):
 			dataString=""
 			for i in range(len(pFrame.data)):
@@ -190,6 +177,7 @@ class CAN_Main(object):
 		        	self.serialport.write('\n'.encode()) 	
 			except:
 				pass
+
 	def pollBus(self):
 		try:	
 			msg = self.bus.recv(timeout=10)
@@ -208,56 +196,55 @@ class CAN_Main(object):
 		self.current_engine_coolant_temp = pValue
 		if(self.previous_engine_coolant_temp != self.current_engine_coolant_temp):
 			self.update_engine_coolant_temp = True
-
-	#engine torque
-	def set_engine_torque(self, pValue):
-		self.previous_engine_torque = self.current_engine_torque
-		self.current_engine_torque = pValue
-		if(self.previous_engine_torque != self.current_engine_torque):
-			self.update_engine_torque = True
-
 	#engine RPM
 	def set_engine_RPM(self, pValue):
 		self.previous_engine_RPM = self.current_engine_RPM
 		self.current_engine_RPM = pValue
 		if(self.previous_engine_RPM != self.current_engine_RPM):
 			self.update_engine_RPM = True
-
-	#throttle percent
-	def set_throttle_percent(self, pValue):
-		self.previous_throttle_percent = self.current_throttle_percent
-		self.current_throttle_percent = pValue
-		if(self.previous_throttle_percent != self.current_throttle_percent):
-			self.update_throttle_percent = True
+	#Shift
+	def set_shift(self, pValue):
+		self.previous_shift = self.current_shift
+		self.current_shift = pValue
+		if(self.previous_shift != self.current_shift):
+			self.update_shift = True
 	
+	#Warning Charing
+	def set_warning_charging(self, pValue):
+		self.previous_warning_charging = self.current_warning_charging
+		self.current_warning_charging = pValue
+		if(self.previous_warning_charging != self.current_warning_charging):
+			self.update_warning_charging = True
+	#Warning Fuel Low
+	def set_warning_fuel_low(self, pValue):
+		self.previous_warning_fuel_low = self.current_warning_fuel_low
+		self.current_warning_fuel_low = pValue
+		if(self.previous_warning_fuel_low != self.current_warning_fuel_low):
+			self.update_warning_fuel_low = True
+	#Warning CAN down
+	def set_warning_CAN_down(self, pValue):
+		self.previous_warning_CAN_down = self.current_warning_CAN_down
+		self.current_warning_CAN_down = pValue
+		if(self.previous_warning_CAN_down != self.current_warning_CAN_down):
+			self.update_warning_CAN_down = True
+	#Warning Motor On
+	def set_warning_motor_on(self, pValue):
+		self.previous_warning_motor_on = self.current_warning_motor_on
+		self.current_warning_motor_on = pValue
+		if(self.previous_warning_motor_on != self.current_warning_motor_on):
+			self.update_warning_motor_on = True
 	#warning ess over temp
 	def set_warning_ess_overtemp(self, pValue):
 		self.previous_warning_ess_overtemp = self.current_warning_ess_overtemp
 		self.current_warning_ess_overtemp = pValue
 		if(self.previous_warning_ess_overtemp != self.current_warning_ess_overtemp):
 			self.update_warning_ess_overtemp = True
-
-	#warning fuel level low - Replaced with bar graph
-	#def set_warning_fuel_level_low(self, pValue):
-	#	self.previous_warning_fuel_level_low = self.current_warning_fuel_level_low
-	#	self.current_warning_fuel_level_low = pValue
-	#	if(self.previous_warning_fuel_level_low != self.current_warning_fuel_level_low):
-	#		self.update_warning_fuel_level_low = True
-
-	#warning glv cockpit brb
-	def set_warning_glv_cockpit_brb(self, pValue):
-		self.previous_warning_glv_cockpit_brb = self.current_warning_glv_cockpit_brb
-		self.current_warning_glv_cockpit_brb = pValue
-		if(self.previous_warning_glv_cockpit_brb != self.current_warning_glv_cockpit_brb):
-			self.update_warning_glv_cockpit_brb = True
-
 	#warning glv soc low
-	def set_warning_glv_soc_low(self, pValue):
+	def set_warning_glv_soc(self, pValue):
 		self.previous_warning_glv_soc_low = self.current_warning_glv_soc_low
 		self.current_warning_glv_soc_low = pValue
 		if(self.previous_warning_glv_soc_low != self.current_warning_glv_soc_low):
 			self.update_warning_glv_soc_low = True
-
 	#warning motor over temp
 	def set_warning_motor_over_temp(self, pValue):
 		self.previous_warning_motor_over_temp = self.current_warning_motor_over_temp
@@ -265,55 +252,31 @@ class CAN_Main(object):
 		if(self.previous_warning_motor_over_temp != self.current_warning_motor_over_temp):
 			self.update_warning_motor_over_temp = True
 
-	#warning transmission failure
-	def set_warning_transmission_failure(self, pValue):
-		self.previous_warning_transmission_failure = self.current_warning_transmission_failure
-		self.current_warning_transmission_failure = pValue
-		if(self.previous_warning_transmission_failure != self.current_warning_transmission_failure):
-			self.update_warning_transmission_failure = True
-
 	#current ess soc
 	def set_ess_soc(self, pValue):
 		self.previous_ess_soc = self.current_ess_soc
 		self.current_ess_soc = pValue
 		if(self.previous_ess_soc != self.current_ess_soc):
 			self.update_ess_soc = True
-
-	#current ess voltage - Not used anymore
-	#def set_ess_voltage(self, pValue):
-	#	self.previous_ess_voltage = self.current_ess_voltage
-	#	self.current_ess_voltage = pValue
-	#	if(self.previous_ess_voltage != self.current_ess_voltage):
-	#		self.update_ess_voltage = True
-
-	#current odometer
-	#def set_odometer(self, pValue):
-	#	self.previous_odometer = self.current_odometer
-	#	self.current_odometer = pValue
-	#	if(self.previous_odometer != self.current_odometer):
-	#		self.update_odometer = True
-
 	#current fuel level
 	def set_fuel(self, pValue):
 		self.previous_fuel = self.current_fuel
 		self.current_fuel = pValue
 		if(self.previous_fuel != self.current_fuel):
 			self.update_fuel = True
-
-	#current control mode - Not used anymore
-	#def set_current_control_mode(self, pValue):
-	#	self.previous_current_control_mode = self.current_current_control_mode
-	#	self.current_current_control_mode = pValue
-	#	if(self.previous_current_control_mode != self.current_current_control_mode):
-	#		self.update_current_control_mode = True
-
-	#current gear
+	#current target fuel
+	def set_target_fuel(self, pValue):
+		self.previous_target_fuel = self.current_target_fuel
+		self.current_target_fuel = pValue
+		if(self.previous_target_fuel != self.current_target_fuel):
+			self.update_target_fuel = True
+	
+	#current gear  set_target_fuel
 	def set_current_gear(self, pValue):
 		self.previous_current_gear = self.current_current_gear
 		self.current_current_gear = pValue
 		if(self.previous_current_gear != self.current_current_gear):
 			self.update_current_gear = True
-
 	#vehicle speed
 	def set_vehicle_speed(self, pValue):
 		self.previous_vehicle_speed = self.current_vehicle_speed
@@ -321,71 +284,73 @@ class CAN_Main(object):
 		if(self.previous_vehicle_speed != self.current_vehicle_speed):
 			self.update_vehicle_speed = True
 
-	#energy budget status - Not used
-	#def set_engery_budget_status(self, pValue):
-	#	self.previous_engery_budget_status = self.current_engery_budget_status
-	#	self.current_engery_budget_status = pValue
-	#	if(self.previous_engery_budget_status != self.current_engery_budget_status):
-	#		self.update_engery_budget_status = True
 
 	def initializeInstances(self):
-		self.bus = Bus(can_interface,can_filters=FILTER_DICTIONARY_LIST)
+		#FILTER REMOVED TEMPORARILY FOR TELEMETRY TESTING
+		#self.bus = Bus(can_interface,can_filters=FILTER_DICTIONARY_LIST)
+		self.bus = Bus(can_interface)
 		self.can_tools = CAN_Opener.Can_Opener()
 
 	def message_select(self, pCAN_frame):
-		if(pCAN_frame.arbitration_id == 0x100):
-			self.message_one(pCAN_frame.data)
-		elif(pCAN_frame.arbitration_id == 0x200):
-			self.message_two(pCAN_frame.data)
-		elif(pCAN_frame.arbitration_id == 0x300):
-			self.message_three(pCAN_frame.data)
-		elif(pCAN_frame.arbitration_id == 0x400):
-			self.message_four(pCAN_frame.data)
+		if(pCAN_frame.arbitration_id == 0x101): #Fast
+			self.message_vechicle_fast(pCAN_frame.data)
+		if(pCAN_frame.arbitration_id == 0x102): #Slow
+			self.message_vechicle_slow(pCAN_frame.data)			
+		if(pCAN_frame.arbitration_id == 0x200): #Warnings
+			self.message_vechicle_warnings(pCAN_frame.data)
 		else:
 			pass
 
 	def shiftData(self, pValue, pShiftPlaces): #simple divide
 		return pValue>>pShiftPlaces
 
-	def message_one(self, data): #Engine Signals
-		#msg_one_bits = self.can_tools.pack_data(data)
-		self.set_engine_coolant_temp(data[0])
-		self.set_engine_torque(data[1])
-		self.set_engine_RPM(data[3]*256 + data[2])
-		self.set_throttle_percent(self.shiftData(data[4], 1))
-		self.set_fuel(data[5]) #May have to update later
+	'''
+	Need:
+	RPM
+	speed
+	ess soc
+	gear
+	shift
 
-	def message_two(self, data): #Warnings
-		#msg_two_bits = self.can_tools.pack_data(data)
-		
-		#self.set_warning_glv_soc_low(self.can_tools.shift_mask(3, 1, msg_two_bits, ONE_BIT_MASK))
-		self.set_warning_glv_soc_low(self.shiftData(data[0], 3) & ONE_BIT_MASK)
+	target fuel
+	fuel
+	engine temp
 
-		#self.set_warning_motor_over_temp(self.can_tools.shift_mask(4, 1, msg_two_bits, ONE_BIT_MASK))
-		
-		#self.set_warning_glv_cockpit_brb(self.can_tools.shift_mask(2, 1, msg_two_bits, ONE_BIT_MASK))
-		self.set_warning_glv_cockpit_brb(self.shiftData(data[0], 2) & ONE_BIT_MASK)
-		
-		#self.set_warning_ess_overtemp(self.can_tools.shift_mask(0, 1, msg_two_bits, ONE_BIT_MASK))
-		self.set_warning_ess_overtemp(data[0] & ONE_BIT_MASK)
-			
-		#self.set_warning_transmission_failure(self.can_tools.shift_mask(5, 1, msg_two_bits, ONE_BIT_MASK))
-		self.set_warning_transmission_failure(self.shiftData(data[0], 5) & ONE_BIT_MASK)
-	
-		#self.set_warning_fuel_level_low(self.can_tools.shift_mask(1, 1, msg_two_bits, ONE_BIT_MASK))
+	warn motor temp
+	warn fuel low
+	war ess over temp
+	warn CAN down
+	warn charging
+	warn power on
 
-	def message_three(self, data): #Electrical Systems
-		#self.set_ess_soc(self.shiftData(data[0], 1))
-		#self.set_ess_voltage(data[1])
+	'''
+	def message_vechicle_fast(self, data):
+		self.set_engine_RPM(data[3]*256 + data[2]) #2 bytes
+		self.set_vehicle_speed(self.shiftData(data[4], 1)) #div by 2
+		self.set_ess_soc(self.shiftData(data[5], 1)) #div by 2
+		self.set_current_gear(data[6] & FOUR_BIT_MASK) #Lowest 4 bits
+		self.set_shift(self.shiftData(data[6],4) & ONE_BIT_MASK)
 
-		self.set_ess_soc(self.shiftData(data[5], 1))
-	
-	def message_four(self, data): #Control
-		#msg_four_bits = self.can_tools.pack_data(data)
-		#self.set_current_control_mode(self.can_tools.shift_mask(0, 2, msg_four_bits, TWO_BIT_MASK))
-		#self.set_current_gear(self.can_tools.shift_mask(2, 4, msg_four_bits, FOUR_BIT_MASK))
-		self.set_current_gear(self.shiftData(data[0], 2) & FOUR_BIT_MASK)
-		self.set_vehicle_speed(self.shiftData(data[1], 1))
-		#self.set_engery_budget_status(data[3])
-		#self.set_odometer(data[4])
+	def message_vechicle_slow(self, data):
+		self.set_target_fuel(self.shiftData(data[0], 1)) #div by 2
+		self.set_fuel(self.shiftData(data[4], 1)) #div by 2
+		self.set_engine_coolant_temp(data[6]) #no div by 2?
+
+	def message_vechicle_warnings(self, data):
+		self.set_warning_motor_over_temp(data[0] & ONE_BIT_MASK)
+		self.set_warning_fuel_low(self.shiftData(data[0], 1) & ONE_BIT_MASK)
+		self.set_warning_ess_overtemp(self.shiftData(data[0], 2) & ONE_BIT_MASK)
+		self.set_warning_CAN_down(self.shiftData(data[0], 4) & ONE_BIT_MASK)
+		self.set_warning_charging(self.shiftData(data[0], 5) & ONE_BIT_MASK)
+		self.set_warning_motor_on(self.shiftData(data[0], 6) & ONE_BIT_MASK)
+		self.set_warning_glv_soc(self.shiftData(data[0], 7) & ONE_BIT_MASK)
+
+
+
+
+
+
+
+
+
 
